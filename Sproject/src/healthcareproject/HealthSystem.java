@@ -1,13 +1,15 @@
-package project;
+package healthcareproject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import eproject.Test;
+import project.Appointment;
+import project.Test;
 
-public class Health_System implements HealthCare{
-	ArrayList<Diagnostic_Center> centers=new ArrayList<>();
+public class HealthSystem implements HealthCare{
+	
+	ArrayList<DiagnosticCenter> centers=new ArrayList<>();
 	
 	public boolean validCenterName(String cName) {
 		boolean res=true;
@@ -23,20 +25,21 @@ public class Health_System implements HealthCare{
 		}
 		return res;
 	}
+	
     public boolean addCenter(){
     	boolean flag=false;
         try {
-        	
             BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
             System.out.println("Enter The Center Name to be Added");
+            System.out.println("Enter the valid name with the first letter as capital.");
             String cName=br.readLine();
             if (cName.length()!=0){
-                centers.add(new Diagnostic_Center(cName));
-                System.out.println("Center Added Succesfully");
-                flag=true;
-            }
-            else{
-                //System.out.println("Name Shouldn't be Blank");
+            		centers.add(new DiagnosticCenter(cName));
+                    System.out.println("Center Added Succesfully");
+                    flag=true;
+            	}
+            else if(cName.length()==0){
+            	//if the center name is blank, then it throws the exception.
                 throw new CenterNameException(cName);
                 }
         } catch (Exception e) {
@@ -51,19 +54,26 @@ public class Health_System implements HealthCare{
             BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
             System.out.println("The Centers Are:");
             
-                for(Diagnostic_Center a: centers){
+                for(DiagnosticCenter a: centers){
                 	
-                    System.out.print("Center Id- "+a.centerId+"\t");
+                    System.out.print("\nCenter Id- "+a.centerId+"\t");
                     System.out.println("Center Name-"+a.getCenterName());
                     for(Test test:a.listOfTests){
 	                    System.out.print("Test Id-"+test.testId+"\t");
 	                    System.out.println("Test Name-"+test.getTestName());              
 	                     }
+                    for(Appointment a1: a.appointmentList){
+	                	System.out.println("Appointment Id       : " +a1.getAppId());
+	                	System.out.println("Name                 : " +a1.getUser().getUserName());
+	                	System.out.println("Test                 : " +a1.getTest().getTestName());
+	                	System.out.println("Appointment Schedule : " +a1.getDate());
+	                	System.out.println();
+	                }
                 }
                 System.out.println("Enter The Center ID");
                 String id=br.readLine();
                 int found=0;
-                for(Diagnostic_Center a:centers){
+                for(DiagnosticCenter a:centers){
                     if (a.centerId.equals(id)){
                         centers.remove(a);
                         found=1;
@@ -73,7 +83,7 @@ public class Health_System implements HealthCare{
                     }
                 }
                 if (found==0){
-                    //System.out.println("Center Id is not legal");
+                	//if the Center Id does not matches the Center Id present in the list it throws exception.
                     throw new CenterIdException();
                 }
             } catch (Exception e) {

@@ -1,4 +1,4 @@
-package project;
+package healthcareproject;
 
 public interface HealthCare {
 	public boolean addCenter();

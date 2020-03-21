@@ -1,4 +1,4 @@
-package eproject;
+package project;
 
 public class Test {
 	 static int tstart=0;
@@ -14,7 +14,4 @@ public class Test {
 		public void setTestName(String testName) {
 			this.testName = testName;
 		}
-		
-		
-	   
 }
